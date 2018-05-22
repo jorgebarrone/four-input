@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>four-input test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../four-input.html">
+</head>
+<body>
+
+<test-fixture id="default">
+    <template>
+        <four-input></four-input>
+    </template>
+</test-fixture>
+
+<script>
+    suite('default cases', () => {
+
+        setup(function () {
+            element = fixture('default');
+            elementShadowDom = element.shadowRoot;
+        });
+
+        test('Validate Button is disable at initialize the component', () => {
+            const disabledStatus = elementShadowDom.querySelector('#validateButton').getAttribute('disabled');
+            assert.strictEqual(disabledStatus, 'true');
+        });
+
+        test('Button is able at validate the form', () => {
+            element.input1Value = '11111111';
+            element.input2Value = '22222';
+            element.input3Value = '333333333';
+            element.input4Value = '44';
+            element.validate();
+            const disabledStatus = elementShadowDom.querySelector('#validateButton').hasAttribute('disabled');
+            assert.strictEqual(disabledStatus, false);
+        });
+
+        test('Fired a sed-data event if the data is validate at click over validateButton', () => {
+            element.input1Value = '11111111';
+            element.input2Value = '22222';
+            element.input3Value = '333333333';
+            element.input4Value = '44';
+            const button = elementShadowDom.querySelector('#validateButton');
+
+            element.addEventListener('send-data', (event) => {
+                assert.deepEqual(event.detail, {
+                    input1: '11111111',
+                    input2: '22222',
+                    input3: '333333333',
+                    input4: '44'
+                });
+            });
+
+            button.click();
+        });
+
+    });
+</script>
+
+</body>
+</html>

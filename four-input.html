@@ -1,0 +1,159 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
+
+<dom-module id="four-input">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <div class="container">
+      <h2>Hello [[blocktitle]]!</h2>
+      <paper-input
+        label="[[input1Title]]"
+        value="{{input1Value}}"
+        required
+        auto-validate
+        error-message="required Integers only"
+        char-counter
+        maxlength="[[input1Limit]]"
+        pattern="[0-9]*"
+        on-invalid-changed="validate">
+      </paper-input>
+      <paper-input
+        label="[[input2Title]]"
+        value="{{input2Value}}"
+        required
+        auto-validate
+        error-message="required Integers only"
+        char-counter
+        maxlength="[[input2Limit]]"
+        on-invalid-changed="validate">
+      </paper-input>
+      <paper-input
+        label="[[input3Title]]"
+        value="{{input3Value}}"
+        required
+        auto-validate
+        error-message="required Integers only"
+        char-counter
+        maxlength="[[input3Limit]]"
+        on-invalid-changed="validate">
+      </paper-input>
+      <paper-input
+        label="[[input4Title]]"
+        value="{{input4Value}}"
+        required
+        auto-validate
+        error-message="required Integers only"
+        char-counter
+        maxlength="[[input4Limit]]"
+        on-invalid-changed="validate">
+      </paper-input>
+      <br></br>
+      <paper-button id="validateButton" on-click="sendData" disabled>Validate</paper-button>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * `my-component`
+     * Basic component
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class FourInput extends Polymer.Element {
+      static get is() { return 'four-input'; }
+      static get properties() {
+        return {
+          blocktitle: {
+            type: String,
+            value: 'Block Title'
+          },
+          input1Title: {
+            type: String,
+            value: 'input1 Title'
+          },
+          input1Limit: {
+            type: Number,
+            value: 8
+          },
+          input1Value: {
+            type: Number,
+            value: ''
+          },
+          input2Title: {
+            type: String,
+            value: 'input2 Title'
+          },
+          input2Limit: {
+            type: Number,
+            value: 5
+          },
+          input2Value: {
+            type: Number,
+            value: ''
+          },
+          input3Title: {
+            type: String,
+            value: 'input3 Title'
+          },
+          input3Limit: {
+            type: Number,
+            value: 9
+          },
+          input3Value: {
+            type: Number,
+            value: ''
+          },
+          input4Title: {
+            type: String,
+            value: 'input4 Title'
+          },
+          input4Limit: {
+            type: Number,
+            value: 2
+          },
+          input4Value: {
+            type: Number,
+            value: ''
+          }
+
+        };
+      }
+
+      connectedCallback() {
+          super.connectedCallback();
+      }
+
+      validate(event) {
+          if (this.input1Value !== '' && this.input2Value !== '' && this.input3Value !== '' && this.input4Value !== '') {
+              this.$.validateButton.removeAttribute('disabled');
+          } else {
+              this.$.validateButton.setAttribute('disabled', 'true');
+          }
+      }
+
+      sendData() {
+          this.dispatchEvent(new CustomEvent('send-data', {
+              bubbles: true,
+              composed: true,
+              detail: {
+                  input1: this.input1Value,
+                  input2: this.input2Value,
+                  input3: this.input3Value,
+                  input4: this.input4Value
+              }
+          }));
+      }
+
+    }
+
+    window.customElements.define(FourInput.is, FourInput);
+  </script>
+</dom-module>
