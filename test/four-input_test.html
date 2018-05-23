@@ -27,6 +27,17 @@
             elementShadowDom = element.shadowRoot;
         });
 
+        test('Validate Block Title is equal to te blocktitle property', () => {
+            element.blocktitle = 'Block Container';
+            assert.strictEqual(element.blocktitle, 'Block Container');
+        });
+
+        test('Validate input-limit property is equal to the maxlength property', () => {
+            element.input1Limit = '5';
+            const input1MaxLength = elementShadowDom.querySelector('#inp1').maxlength
+            assert.strictEqual(input1MaxLength, '5');
+        });
+
         test('Validate Button is disable at initialize the component', () => {
             const disabledStatus = elementShadowDom.querySelector('#validateButton').getAttribute('disabled');
             assert.strictEqual(disabledStatus, 'true');
